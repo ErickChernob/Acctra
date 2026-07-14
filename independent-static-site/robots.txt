@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /401.html
+Disallow: /detail_blog-posts.html
+Disallow: /detail_faq.html
+
+Sitemap: https://www.acctra.com.mx/sitemap.xml
