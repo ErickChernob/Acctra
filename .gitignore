@@ -1,0 +1,7 @@
+# Build outputs regenerated from independent-static-site/ - not canonical
+# source, intentionally not tracked to avoid duplicating ~160MB of binary
+# assets already versioned there. Regenerate via the steps in
+# FINAL_QA_REPORT.md, or use the public_html_ready.zip delivered alongside
+# this repository.
+/public_html_ready/
+/public_html_ready.zip

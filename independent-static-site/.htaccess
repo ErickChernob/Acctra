@@ -60,8 +60,50 @@ Options -Indexes
 # ---------------------------------------------------------------------------
 AddDefaultCharset UTF-8
 
+# Browser caching (mod_headers, preferred where available)
 <IfModule mod_headers.c>
-  <FilesMatch "\.(woff2|svg|jpg|jpeg|png|gif|webp|mp4|webm)$">
+  <FilesMatch "\.(woff2|svg|jpg|jpeg|png|gif|webp|mp4|webm|ico)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# Browser caching fallback for hosts without mod_headers enabled
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType video/webm "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Compression - safe for a static site, no effect on third-party embeds
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml application/xml
+</IfModule>
+
+# Security headers that are safe for a static site and do not block the
+# Google Maps iframe embed or any other third-party resource this site loads.
+# (No Content-Security-Policy is set here - a strict CSP could not be
+# verified against the live Google Maps embed in the environment this
+# project was prepared in; adding one is a good follow-up once it can be
+# tested against the real deployed site. See FINAL_QA_REPORT.md.)
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
 </IfModule>
