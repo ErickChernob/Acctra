@@ -1,7 +1,6 @@
-# Build outputs regenerated from independent-static-site/ - not canonical
-# source, intentionally not tracked to avoid duplicating ~160MB of binary
-# assets already versioned there. Regenerate via the steps in
-# FINAL_QA_REPORT.md, or use the public_html_ready.zip delivered alongside
-# this repository.
-/public_html_ready/
+# public_html_ready.zip is a single ~161MB archive of public_html_ready/ -
+# it exceeds both this chat's file-delivery limit and GitHub's 100MB
+# single-file push limit, so only the unpacked folder is tracked here.
+# Regenerate the zip locally after cloning with:
+#   cd public_html_ready && zip -r -X ../public_html_ready.zip .
 /public_html_ready.zip

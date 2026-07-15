@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.acctra.com.mx/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.acctra.com.mx/quienes-somos.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.acctra.com.mx/servicios.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.acctra.com.mx/infraestructura.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.acctra.com.mx/proyectos.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.acctra.com.mx/contacto.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.acctra.com.mx/aviso-de-privacidad.html</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.acctra.com.mx/codigo-de-etica.html</loc>
+    <priority>0.3</priority>
+  </url>
+</urlset>

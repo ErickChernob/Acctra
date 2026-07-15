@@ -1,0 +1,185 @@
+/*!
+ * ACCTRA site.css
+ * Custom stylesheet added during the Webflow -> static migration. Loaded after
+ * normalize.css / webflow.css / demo-acctra.webflow.css, which are kept unmodified
+ * for visual fidelity. This file only adds:
+ *   1. Hover micro-interactions that were previously driven by Webflow's IX2 JS
+ *      (buttons, phase cards) - recreated here in pure CSS.
+ *   2. Styling for the custom lightbox (js/lightbox.js), replacing Webflow's lightbox.
+ *   3. A small mobile-only pre-hide rule for the homepage hero images (replaces an
+ *      inline Webflow FOUC-prevention snippet that depended on webflow.js).
+ */
+
+/* ---------- 1. Hover interactions (previously Webflow IX2 "Hover In/Out") ---------- */
+
+/* Primary button: colored ellipse rises up behind the label on hover */
+.button-elipse {
+  transform: translateY(0%);
+  transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.primary-button:hover .button-elipse {
+  transform: translateY(-40%);
+  transition: transform 600ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Secondary button: circular icon reveals and the arrow slides across on hover */
+.button-icon.absolute {
+  width: 0%;
+  transition: width 1000ms cubic-bezier(0.16, 1, 0.3, 1), opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.secondary-button:hover .button-icon.absolute {
+  width: 100%;
+  opacity: 1;
+  transition: width 800ms cubic-bezier(0.76, 0, 0.24, 1), opacity 200ms linear;
+}
+.secondary-button .button-wrapper .icon {
+  transform: translateX(0%);
+  transition: transform 0ms;
+}
+.secondary-button:hover .button-wrapper .icon {
+  transform: translateX(150%);
+  transition: transform 800ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Banner button (contact page): underline fills and the arrow slides in on hover */
+.banner-button .line-fill {
+  width: 0%;
+  transition: width 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.banner-button:hover .line-fill {
+  width: 100%;
+  transition: width 1000ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+.banner-button .icon-wrapper .arrow {
+  transform: translateX(0%);
+  transition: transform 0ms;
+}
+.banner-button:hover .icon-wrapper .arrow {
+  transform: translateX(170%);
+  transition: transform 1000ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* "Quiénes somos" phase cards: darken and highlight the number on hover */
+.phase-cards {
+  transition: background-color 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.phase-cards:hover {
+  background-color: rgb(31, 31, 31);
+  transition: background-color 400ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+.phase-number {
+  transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1), color 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.phase-cards:hover .phase-number {
+  opacity: 1;
+  color: var(--color--orange);
+  transition: opacity 400ms cubic-bezier(0.76, 0, 0.24, 1), color 400ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ---------- 2. Custom lightbox (js/lightbox.js), proyectos.html only ---------- */
+
+.acctra-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.acctra-lightbox[hidden] {
+  display: none;
+}
+.acctra-lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 15, 15, 0.92);
+}
+.acctra-lightbox__figure {
+  position: relative;
+  z-index: 1;
+  max-width: 90vw;
+  max-height: 88vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.acctra-lightbox__img {
+  max-width: 90vw;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.5);
+}
+.acctra-lightbox__counter {
+  margin-top: 0.75rem;
+  color: var(--color--white);
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+.acctra-lightbox__close,
+.acctra-lightbox__prev,
+.acctra-lightbox__next {
+  position: absolute;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color--white);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.acctra-lightbox__close:hover,
+.acctra-lightbox__prev:hover,
+.acctra-lightbox__next:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.acctra-lightbox__close {
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.75rem;
+}
+.acctra-lightbox__prev,
+.acctra-lightbox__next {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.25rem;
+}
+.acctra-lightbox__prev {
+  left: 1.5rem;
+}
+.acctra-lightbox__next {
+  right: 1.5rem;
+}
+@media screen and (max-width: 767px) {
+  .acctra-lightbox__close {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+  .acctra-lightbox__prev {
+    left: 0.5rem;
+  }
+  .acctra-lightbox__next {
+    right: 0.5rem;
+  }
+}
+
+/* ---------- 3. Homepage hero mobile pre-hide (replaces Webflow's inline FOUC style) ---------- */
+/* Only applies at the same "tiny" breakpoint Webflow used; js/site.js reveals these
+   elements via scroll, same as the rest of the reveal system. Content stays visible
+   without JS thanks to the <noscript> rule in each page's <head>. */
+@media screen and (max-width: 479px) {
+  [data-w-id="16b69460-66f0-c83d-2c5f-5e56a35c1393"],
+  [data-w-id="16b69460-66f0-c83d-2c5f-5e56a35c1395"],
+  [data-w-id="16b69460-66f0-c83d-2c5f-5e56a35c1397"] {
+    opacity: 0;
+  }
+}
