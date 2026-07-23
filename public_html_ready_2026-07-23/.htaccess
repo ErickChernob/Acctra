@@ -1,0 +1,109 @@
+# ACCTRA - Apache configuration for the independent static site.
+# Safe to place at the web root (public_html) as-is.
+
+# ---------------------------------------------------------------------------
+# 1. Force HTTPS and a single canonical host (www.acctra.com.mx)
+#    Adjust the host below if the production domain differs from what's
+#    already referenced throughout this project (canonical tags, sitemap.xml,
+#    robots.txt all use https://www.acctra.com.mx).
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # http -> https
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # non-www -> www
+  RewriteCond %{HTTP_HOST} !^www\. [NC]
+  RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # ---------------------------------------------------------------------------
+  # 2. Clean URLs: allow "/quienes-somos" to serve "/quienes-somos.html".
+  #    Webflow's own hosting always serves pages without the ".html"
+  #    extension, so this keeps any previously indexed/bookmarked clean URLs
+  #    working. Every page's <link rel="canonical"> currently points at the
+  #    explicit ".html" URL (matching this project's internal links); if the
+  #    live Webflow site turns out to have been indexed under the clean URLs
+  #    instead, flip the canonical tags (and optionally add a redirect here)
+  #    to match - this could not be verified from the environment this
+  #    migration was performed in. See MIGRATION_NOTES.md.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^([^.]+)$ $1.html [NC,L]
+</IfModule>
+
+DirectoryIndex index.html
+
+# ---------------------------------------------------------------------------
+# 3. Custom error pages
+# ---------------------------------------------------------------------------
+ErrorDocument 404 /404.html
+ErrorDocument 401 /401.html
+
+# ---------------------------------------------------------------------------
+# 4. Prevent directory listing
+# ---------------------------------------------------------------------------
+Options -Indexes
+
+# ---------------------------------------------------------------------------
+# 5. Legacy Webflow paths
+#    No differing legacy URL structure was identified during this migration
+#    (every page slug already matches its original Webflow page). If Google
+#    Search Console or site analytics later surface indexed URLs that don't
+#    match a file in this project, add explicit Redirect 301 rules here.
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# 6. Sensible defaults
+# ---------------------------------------------------------------------------
+AddDefaultCharset UTF-8
+
+# Browser caching (mod_headers, preferred where available)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(woff2|svg|jpg|jpeg|png|gif|webp|mp4|webm|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# Browser caching fallback for hosts without mod_headers enabled
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType video/webm "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Compression - safe for a static site, no effect on third-party embeds
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml application/xml
+</IfModule>
+
+# Security headers that are safe for a static site and do not block the
+# Google Maps iframe embed or any other third-party resource this site loads.
+# (No Content-Security-Policy is set here - a strict CSP could not be
+# verified against the live Google Maps embed in the environment this
+# project was prepared in; adding one is a good follow-up once it can be
+# tested against the real deployed site. See FINAL_QA_REPORT.md.)
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
