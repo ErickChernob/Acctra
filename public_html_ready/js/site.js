@@ -158,7 +158,10 @@
 
       if (cfg.effect === "slide") el.style.transform = "translateY(100px)";
       if (cfg.effect === "grow") el.style.transform = "scale(0.75)";
-      /* opacity: 0 is already set inline in the HTML for these elements */
+      /* Most of these elements already have opacity:0 set inline in the HTML;
+         a few (e.g. the footer's data-w-id targets) don't, so they stay fully
+         visible and only their transform animates in - matching what those
+         elements actually looked like in the original site. */
 
       animated.push(el);
     });
@@ -179,18 +182,27 @@
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
+      /* rootMargin has no bottom shrink: an element pinned at the very end of a
+         short page (e.g. the footer) can have no more scroll room to satisfy a
+         negative bottom margin, which would mean it can mathematically never
+         intersect and stays permanently stuck mid-animation. */
+      { threshold: 0.1, rootMargin: "0px" }
     );
 
     animated.forEach(function (el) {
       observer.observe(el);
     });
 
-    /* Safety net: anything still hidden a few seconds after load (e.g. inside a
-       display:none ancestor at load time) is force-revealed rather than left blank. */
+    /* Safety net: anything still hidden, or still sitting at its pre-reveal
+       transform offset, a few seconds after load (e.g. inside a display:none
+       ancestor at load time, or an IntersectionObserver edge case) is
+       force-revealed rather than left invisible or visually displaced. */
     window.setTimeout(function () {
       animated.forEach(function (el) {
-        if (parseFloat(getComputedStyle(el).opacity) === 0) revealElement(el);
+        var style = getComputedStyle(el);
+        var stuckHidden = parseFloat(style.opacity) === 0;
+        var stuckOffset = style.transform !== "none" && style.transform !== "";
+        if (stuckHidden || stuckOffset) revealElement(el);
       });
     }, 4000);
   }
