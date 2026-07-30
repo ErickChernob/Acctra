@@ -24,7 +24,7 @@
     ],
     "2": [
       "Foto-1.-Cambio-de-boquilla-clase-400-KV.JPG",
-      "f1_2.JPG",
+      "f1_2.jpg",
       "Foto-1.-Pruebas-electricas-a-transformador-clase-400-KV.jpg",
       "Foto-2-Mantenimiento-preventivo-a-transformafor-de-potencia-en-Parque-fotovoltaico.jpg",
       "Foto-2.-Cambio-de-Boquilla-clase-230-KVA-en-Parque-Eólico-p-1080.jpg",

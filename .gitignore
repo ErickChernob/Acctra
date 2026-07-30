@@ -1,6 +1,8 @@
-# public_html_ready.zip is a single ~161MB archive of public_html_ready/ -
-# it exceeds both this chat's file-delivery limit and GitHub's 100MB
-# single-file push limit, so only the unpacked folder is tracked here.
-# Regenerate the zip locally after cloning with:
+# These zips are single ~161MB archives of their same-named folders - they
+# exceed both this chat's file-delivery limit and GitHub's 100MB single-file
+# push limit, so only the unpacked folders are tracked here. Regenerate
+# locally after cloning with, e.g.:
 #   cd public_html_ready && zip -r -X ../public_html_ready.zip .
+#   cd public_html_ready_2026-07-23 && zip -r -X ../public_html_ready_2026-07-23.zip .
 /public_html_ready.zip
+/public_html_ready_2026-07-23.zip
