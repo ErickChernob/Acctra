@@ -19,7 +19,7 @@
   RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
   # ---------------------------------------------------------------------------
-  # 2. Clean URLs: allow "/quienes-somos" to serve "/quienes-somos.html".
+  # 2. Clean URLs: allow "/servicios" to serve "/servicios.html".
   #    Webflow's own hosting always serves pages without the ".html"
   #    extension, so this keeps any previously indexed/bookmarked clean URLs
   #    working. Every page's <link rel="canonical"> currently points at the
