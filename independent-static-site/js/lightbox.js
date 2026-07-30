@@ -27,7 +27,7 @@
       "f1_2.jpg",
       "Foto-1.-Pruebas-electricas-a-transformador-clase-400-KV.jpg",
       "Foto-2-Mantenimiento-preventivo-a-transformafor-de-potencia-en-Parque-fotovoltaico.jpg",
-      "Foto-2.-Cambio-de-Boquilla-clase-230-KVA-en-Parque-Eólico-p-1080.jpg",
+      "Foto-2.-Cambio-de-Boquilla-clase-230-KVA-en-Parque-Eolico-p-1080.jpg",
       "f3_2.jpg",
       "Foto-2.-Inspeccion-final-a-transformador-GSU-clase-230-KV.jpg",
       "f4_2.jpg"
